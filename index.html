@@ -10,6 +10,26 @@
     <meta name="mobile-web-app-capable" content="yes">
 
     <style>
+        .header-container {
+    text-align: center;
+    padding: 20px 0 10px 0;
+}
+
+.app-logo {
+    width: 80px;      /* Tamaño del logo */
+    height: 80px;
+    border-radius: 20px; /* Bordes redondeados modernos */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Sombra suave */
+    margin-bottom: 10px;
+    object-fit: cover;
+    border: 2px solid white;
+}
+
+h1 {
+    margin-top: 0;
+    font-size: 1.8rem;
+    color: var(--primary);
+}
         :root { --primary: #2563eb; --bg: #f8fafc; --card: #ffffff; --accent: #10b981; --danger: #ef4444; }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); padding: 15px; color: #1e293b; max-width: 500px; margin: auto; }
         h1 { text-align: center; color: var(--primary); font-size: 2.2rem; margin-bottom: 5px; letter-spacing: -1px; }
@@ -39,9 +59,11 @@
 </head>
 <body>
 
+    <div class="header-container">
+    <img src="logo.png" alt="Logo Propinish" class="app-logo">
     <h1>Propinish .</h1>
-    <p class="subtitle">By Leonardo Ruiz.</p>
-
+    <p class="subtitle">By Leonardo Ruiz.Gestión Profesional de Propinas</p>
+</div>
     <div class="tab-buttons">
         <button class="tab-btn active" id="btn-tab-calc" onclick="showTab('calc')">Calculadora</button>
         <button class="tab-btn" id="btn-tab-hist" onclick="showTab('historial')">Reporte Semanal</button>
@@ -200,4 +222,5 @@
     </script>
 </body>
 </html>
+
 
