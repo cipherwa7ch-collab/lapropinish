@@ -6,12 +6,11 @@
     <title>Propinish .</title>
     
     <link rel="apple-touch-icon" href="logo.png">
-<link rel="icon" type="image/png" href="logo.png">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Propinish">
-    
+    <link rel="icon" type="image/png" href="logo.png">
+    <meta name="mobile-web-app-capable" content="yes">
+
     <style>
-        :root { --primary: #2563eb; --bg: #f8fafc; --card: #ffffff; --accent: #10b981; }
+        :root { --primary: #2563eb; --bg: #f8fafc; --card: #ffffff; --accent: #10b981; --danger: #ef4444; }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); padding: 15px; color: #1e293b; max-width: 500px; margin: auto; }
         h1 { text-align: center; color: var(--primary); font-size: 2.2rem; margin-bottom: 5px; letter-spacing: -1px; }
         .subtitle { text-align: center; color: #64748b; font-size: 0.8rem; margin-bottom: 20px; }
@@ -32,12 +31,16 @@
         .stats-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f1f5f9; }
         .monto { font-weight: bold; color: var(--accent); }
         .resumen-global { background: #eff6ff; padding: 15px; border-radius: 10px; margin-bottom: 15px; font-size: 0.9rem; border: 1px solid #dbeafe; }
+        
+        /* Estilo para items del historial con botón borrar */
+        .history-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+        .btn-delete-small { background: #fee2e2; color: var(--danger); padding: 5px 10px; border-radius: 6px; font-size: 0.7rem; width: auto; margin: 0; }
     </style>
 </head>
 <body>
 
     <h1>Propinish .</h1>
-    <p class="subtitle">By Leonardo Ruiz</p>
+    <p class="subtitle">Gestión Profesional con Edición</p>
 
     <div class="tab-buttons">
         <button class="tab-btn active" id="btn-tab-calc" onclick="showTab('calc')">Calculadora</button>
@@ -73,7 +76,7 @@
             <button class="btn-export" onclick="exportarHistorial()">COPIAR REPORTE PARA JEFES</button>
         </div>
         <div class="card" style="font-size: 0.8rem;">
-            <h2>Historial de Turnos</h2>
+            <h2>Historial de Turnos (Modificable)</h2>
             <div id="historial-lista"></div>
             <button onclick="borrarTodo()" style="background:#fee2e2; color:#ef4444; margin-top:20px; border-radius:5px; padding:5px; width: auto; font-size: 0.7rem;">Reiniciar Toda la Semana</button>
         </div>
@@ -96,7 +99,6 @@
             const ef = Math.floor(Number(document.getElementById('efectivo').value) || 0);
             const tb = Math.floor(Number(document.getElementById('transbank').value) || 0);
             const turno = document.getElementById('turno').value;
-            
             const total = ef + tb;
             const cocina = Math.floor(total * 0.20);
             const repartir = total - cocina;
@@ -110,25 +112,25 @@
             const vPunto = Math.floor(repartir / pts);
             const fecha = new Date().toLocaleDateString('es-CL');
 
-            let res = `📅 *REPORTE PROPINISH ${fecha} (${turno})*\n`;
-            res += `--------------------------\n`;
-            res += `💰 Total Recaudado: $${total.toLocaleString()}\n`;
-            res += `👨‍🍳 Cocina (20%): $${cocina.toLocaleString()}\n`;
-            res += `💵 A Repartir: $${repartir.toLocaleString()}\n`;
-            res += `--------------------------\n`;
-            res += `🥇 Pago Full Time: $${vPunto.toLocaleString()}\n`;
-            res += `🥈 Pago Part Time: $${Math.floor(vPunto * 0.5).toLocaleString()}\n\n`;
-            res += `*Fulls:* ${asistF.join(', ')}\n`;
-            res += `*Parts:* ${asistP.join(', ')}`;
+            let res = `📅 *REPORTE PROPINISH ${fecha} (${turno})*\n--------------------------\n💰 Total: $${total.toLocaleString()}\n🥇 Pago Full: $${vPunto.toLocaleString()}\n🥈 Pago Part: $${Math.floor(vPunto*0.5).toLocaleString()}\n\n*Fulls:* ${asistF.join(', ')}\n*Parts:* ${asistP.join(', ')}`;
 
             document.getElementById('resultado').innerText = res;
             document.getElementById('resultado').style.display = 'block';
             document.getElementById('btn-copy').classList.remove('hidden');
 
             let db = JSON.parse(localStorage.getItem('propinish_db') || '[]');
-            db.push({fecha, turno, vPunto, asistF, asistP, ef, tb, cocina, total});
+            db.push({id: Date.now(), fecha, turno, vPunto, asistF, asistP, ef, tb, cocina, total});
             localStorage.setItem('propinish_db', JSON.stringify(db));
             actualizarVistas();
+        }
+
+        function eliminarTurno(id) {
+            if(confirm("¿Seguro que quieres eliminar este turno?")) {
+                let db = JSON.parse(localStorage.getItem('propinish_db') || '[]');
+                db = db.filter(t => t.id !== id);
+                localStorage.setItem('propinish_db', JSON.stringify(db));
+                actualizarVistas();
+            }
         }
 
         function actualizarVistas() {
@@ -144,79 +146,43 @@
                 sumaEf += (Number(t.ef) || 0);
                 sumaTb += (Number(t.tb) || 0);
                 sumaCocina += (Number(t.cocina) || 0);
-                
-                if(t.asistF) {
-                    t.asistF.forEach(n => totalesGarzones[n] = (totalesGarzones[n] || 0) + (Number(t.vPunto) || 0));
-                }
-                if(t.asistP) {
-                    t.asistP.forEach(n => totalesGarzones[n] = (totalesGarzones[n] || 0) + Math.floor((Number(t.vPunto) || 0) * 0.5));
-                }
+                if(t.asistF) t.asistF.forEach(n => totalesGarzones[n] = (totalesGarzones[n] || 0) + (Number(t.vPunto) || 0));
+                if(t.asistP) t.asistP.forEach(n => totalesGarzones[n] = (totalesGarzones[n] || 0) + Math.floor((Number(t.vPunto) || 0) * 0.5));
             });
 
-            const montoEntregar = sumaTb - sumaCocina;
+            resSemanal.innerHTML = `<strong>RESUMEN SEMANAL</strong><br>💵 Ef: $${sumaEf.toLocaleString()} | 💳 TB: $${sumaTb.toLocaleString()}<br>👨‍🍳 Cocina: $${sumaCocina.toLocaleString()}<br><span style="color:var(--primary); font-weight:bold;">🏦 Entrega Jefa: $${(sumaTb-sumaCocina).toLocaleString()}</span>`;
 
-            resSemanal.innerHTML = `
-                <strong>RESUMEN DE CAJA SEMANAL</strong><br>
-                💵 Total Efectivo: $${sumaEf.toLocaleString()}<br>
-                💳 Total Transbank: $${sumaTb.toLocaleString()}<br>
-                👨‍🍳 Total Cocina: $${sumaCocina.toLocaleString()}<br>
-                <hr>
-                <span style="color:var(--primary); font-weight:bold;">
-                🏦 Entrega Jefa (TB - Cocina): $${montoEntregar.toLocaleString()}
-                </span>
-            `;
+            listaA.innerHTML = Object.keys(totalesGarzones).sort().map(n => `<div class="stats-item"><span>${n}</span><span class="monto">$${totalesGarzones[n].toLocaleString()}</span></div>`).join('') || "Sin datos.";
 
-            listaA.innerHTML = Object.keys(totalesGarzones).sort().map(n => `
-                <div class="stats-item"><span>${n}</span><span class="monto">$${totalesGarzones[n].toLocaleString()}</span></div>
-            `).join('') || "No hay datos acumulados.";
-
-            listaH.innerHTML = db.slice().reverse().map(d => `<div>${d.fecha} (${d.turno}): $${(Number(d.total) || 0).toLocaleString()}</div>`).join('');
+            listaH.innerHTML = db.slice().reverse().map(d => `
+                <div class="history-item">
+                    <span>${d.fecha} (${d.turno}): $${(Number(d.total) || 0).toLocaleString()}</span>
+                    <button class="btn-delete-small" onclick="eliminarTurno(${d.id})">Borrar</button>
+                </div>
+            `).join('');
         }
 
         function exportarHistorial() {
             const db = JSON.parse(localStorage.getItem('propinish_db') || '[]');
-            if(db.length === 0) return alert("No hay historial");
-
-            let sumaEf = 0, sumaTb = 0, sumaCocina = 0;
-            let totalesGarzones = {};
-            
+            if(db.length === 0) return alert("No hay datos");
+            let sumaEf = 0, sumaTb = 0, sumaCocina = 0, g = {};
             db.forEach(t => {
-                sumaEf += (Number(t.ef) || 0);
-                sumaTb += (Number(t.tb) || 0);
-                sumaCocina += (Number(t.cocina) || 0);
-                if(t.asistF) {
-                    t.asistF.forEach(n => totalesGarzones[n] = (totalesGarzones[n] || 0) + (Number(t.vPunto) || 0));
-                }
-                if(t.asistP) {
-                    t.asistP.forEach(n => totalesGarzones[n] = (totalesGarzones[n] || 0) + Math.floor((Number(t.vPunto) || 0) * 0.5));
-                }
+                sumaEf += (Number(t.ef)||0); sumaTb += (Number(t.tb)||0); sumaCocina += (Number(t.cocina)||0);
+                if(t.asistF) t.asistF.forEach(n => g[n] = (g[n] || 0) + (Number(t.vPunto) || 0));
+                if(t.asistP) t.asistP.forEach(n => g[n] = (g[n] || 0) + Math.floor((Number(t.vPunto) || 0) * 0.5));
             });
 
-            let reporte = `📊 *REPORTE SEMANAL PROPINISH .*\n`;
-            reporte += `--------------------------\n`;
-            reporte += `💵 Total Efectivo: $${sumaEf.toLocaleString()}\n`;
-            reporte += `💳 Total Transbank: $${sumaTb.toLocaleString()}\n`;
-            reporte += `👨‍🍳 Total Cocina: $${sumaCocina.toLocaleString()}\n`;
-            reporte += `💰 *MONTO A ENTREGAR (TB-COCINA): $${(sumaTb-sumaCocina).toLocaleString()}*\n`;
-            reporte += `--------------------------\n`;
-            reporte += `*ACUMULADO POR GARZÓN:*\n`;
-            Object.keys(totalesGarzones).sort().forEach(n => {
-                reporte += `${n}: $${totalesGarzones[n].toLocaleString()}\n`;
-            });
-            reporte += `--------------------------\nGenerado: ${new Date().toLocaleDateString()}`;
-
+            let rep = `📊 *REPORTE SEMANAL PROPINISH .*\n--------------------------\n💰 *MONTO A ENTREGAR: $${(sumaTb-sumaCocina).toLocaleString()}*\n(TB: $${sumaTb.toLocaleString()} - Cocina: $${sumaCocina.toLocaleString()})\n--------------------------\n*ACUMULADO GARZONES:*\n`;
+            Object.keys(g).sort().forEach(n => rep += `${n}: $${g[n].toLocaleString()}\n`);
             const area = document.getElementById('copy-area');
-            area.value = reporte;
-            area.select();
-            document.execCommand('copy');
+            area.value = rep; area.select(); document.execCommand('copy');
             alert("¡Reporte Semanal copiado!");
         }
 
         function copiarText(id) {
             const area = document.getElementById('copy-area');
             area.value = document.getElementById(id).innerText;
-            area.select();
-            document.execCommand('copy');
+            area.select(); document.execCommand('copy');
             alert("¡Copiado!");
         }
 
@@ -227,11 +193,10 @@
             document.getElementById('btn-tab-hist').classList.toggle('active', tab === 'historial');
         }
 
-        function borrarTodo() { if(confirm("¿Seguro que quieres borrar toda la semana?")) { localStorage.removeItem('propinish_db'); location.reload(); } }
+        function borrarTodo() { if(confirm("¿Borrar toda la semana?")) { localStorage.removeItem('propinish_db'); location.reload(); } }
 
         renderPersonal();
         actualizarVistas();
     </script>
 </body>
 </html>
-
