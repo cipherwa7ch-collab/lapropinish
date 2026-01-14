@@ -5,253 +5,289 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Propinish .</title>
-    
     <link rel="apple-touch-icon" href="logo.png">
     <link rel="icon" type="image/png" href="logo.png">
     <meta name="mobile-web-app-capable" content="yes">
-
     <style>
-        .header-container {
-    text-align: center;
-    padding: 20px 0 10px 0;
-}
-
-.app-logo {
-    width: 80px;      /* Tamaño del logo */
-    height: 80px;
-    border-radius: 20px; /* Bordes redondeados modernos */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Sombra suave */
-    margin-bottom: 10px;
-    object-fit: cover;
-    border: 2px solid white;
-}
-
-h1 {
-    margin-top: 0;
-    font-size: 1.8rem;
-    color: var(--primary);
-}
-        :root { --primary: #2563eb; --bg: #f8fafc; --card: #ffffff; --accent: #10b981; --danger: #ef4444; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); padding: 15px; color: #1e293b; max-width: 500px; margin: auto; }
-        h1 { text-align: center; color: var(--primary); font-size: 2.2rem; margin-bottom: 5px; letter-spacing: -1px; }
-        .subtitle { text-align: center; color: #64748b; font-size: 0.8rem; margin-bottom: 20px; }
-        .card { background: var(--card); padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        h2 { color: #334155; font-size: 1.1rem; margin-top: 0; border-left: 4px solid var(--primary); padding-left: 10px; margin-bottom: 15px; }
-        .grid-personal { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .checkbox-item { display: flex; align-items: center; gap: 8px; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #f1f5f9; font-size: 0.85rem; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; font-size: 1rem; margin-top: 5px; }
-        button { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 10px; font-size: 1rem; }
-        .btn-calc { background: var(--primary); color: white; }
-        .btn-copy { background: var(--accent); color: white; }
-        .btn-export { background: #4f46e5; color: white; margin-top: 20px; }
-        #resultado { background: #f1f5f9; padding: 15px; border-radius: 10px; margin-top: 15px; white-space: pre-wrap; font-family: monospace; font-size: 0.85rem; display: none; border: 1px dashed #cbd5e1; color: #334155; }
-        .tab-buttons { display: flex; gap: 8px; margin-bottom: 15px; }
-        .tab-btn { background: #e2e8f0; flex: 1; padding: 10px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; color: #64748b; }
-        .tab-btn.active { background: var(--primary); color: white; }
-        .hidden { display: none; }
-        .stats-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f1f5f9; }
-        .monto { font-weight: bold; color: var(--accent); }
-        .resumen-global { background: #eff6ff; padding: 15px; border-radius: 10px; margin-bottom: 15px; font-size: 0.9rem; border: 1px solid #dbeafe; }
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+        }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
         
-        /* Estilo para items del historial con botón borrar */
-        .history-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
-        .btn-delete-small { background: #fee2e2; color: var(--danger); padding: 5px 10px; border-radius: 6px; font-size: 0.7rem; width: auto; margin: 0; }
+        .header-container { text-align: center; padding: 10px 0 20px 0; }
+        .app-logo { width: 85px; height: 85px; border-radius: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 10px; object-fit: cover; border: 2px solid white; }
+        h1 { margin: 0; font-size: 1.8rem; color: var(--primary); }
+        .subtitle { margin: 5px 0 0; font-size: 0.9rem; opacity: 0.7; }
+
+        .card { background: var(--card); padding: 20px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #e2e8f0; border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
+        
+        .grid-asistencia { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .col-asistencia h3 { font-size: 0.9rem; border-bottom: 2px solid var(--primary); padding-bottom: 5px; }
+        .check-item { display: flex; align-items: center; margin-bottom: 8px; font-size: 0.9rem; }
+        .check-item input { width: auto; margin-right: 10px; margin-bottom: 0; }
+
+        button { width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 1rem; }
+        .btn-calc { background: var(--primary); color: white; margin-bottom: 10px; }
+        .btn-whatsapp { background: #25d366; color: white; margin-top: 10px; }
+        .btn-edit { background: #f59e0b; color: white; padding: 5px 10px; width: auto; font-size: 0.8rem; border-radius: 5px; }
+        .btn-del { background: #ef4444; color: white; padding: 5px 10px; width: auto; font-size: 0.8rem; border-radius: 5px; }
+
+        #resultado { background: #f1f5f9; padding: 15px; border-radius: 10px; white-space: pre-wrap; font-family: monospace; font-size: 0.9rem; display: none; margin-top: 15px; border-left: 4px solid var(--primary); }
+        
+        .historial-item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; }
+        .monto { font-weight: bold; color: var(--primary); }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="header-container">
-    <img src="logo.png" alt="Logo Propinish" class="app-logo">
+<div class="header-container">
+    <img src="logo.png" alt="Logo" class="app-logo">
     <h1>Propinish .</h1>
-    <p class="subtitle">By Leonardo Ruiz - Gestión Profesional de Propinas</p>
+    <p class="subtitle">Gestión Profesional de Propinas</p>
 </div>
-    <div class="tab-buttons">
-        <button class="tab-btn active" id="btn-tab-calc" onclick="showTab('calc')">Calculadora</button>
-        <button class="tab-btn" id="btn-tab-hist" onclick="showTab('historial')">Reporte Semanal</button>
-    </div>
 
-    <div id="tab-calc">
-        <div class="card">
-            <h2>Montos del Turno</h2>
-            <div class="grid-personal">
-                <div><label style="font-size:0.7rem; font-weight:bold">EFECTIVO</label><input type="number" id="efectivo" placeholder="0"></div>
-                <div><label style="font-size:0.7rem; font-weight:bold">TRANSBANK</label><input type="number" id="transbank" placeholder="0"></div>
-            </div>
-            <select id="turno" style="margin-top:10px"><option value="AM">Mañana (AM)</option><option value="PM">Tarde (PM)</option></select>
+<div class="card">
+    <label>📅 Fecha del Turno (Opcional):</label>
+    <input type="date" id="fecha-manual">
+
+    <label>🕒 Turno:</label>
+    <select id="turno">
+        <option value="Día">Día</option>
+        <option value="Noche">Noche</option>
+    </select>
+
+    <label>💵 Efectivo:</label>
+    <input type="number" id="efectivo" placeholder="Ej: 50000" inputmode="numeric">
+
+    <label>💳 Transbank (TB):</label>
+    <input type="number" id="transbank" placeholder="Ej: 120000" inputmode="numeric">
+
+    <div class="grid-asistencia">
+        <div class="col-asistencia">
+            <h3>Full-Time (1.0)</h3>
+            <div id="lista-full"></div>
         </div>
-
-        <div class="card">
-            <h2>Personal en Turno</h2>
-            <div id="lista-full" class="grid-personal"></div>
-            <div id="lista-part" class="grid-personal" style="margin-top:15px; border-top:1px solid #eee; padding-top:15px"></div>
-        </div>
-
-        <button class="btn-calc" onclick="calcular()">CALCULAR Y GUARDAR</button>
-        <div id="resultado"></div>
-        <button id="btn-copy" class="btn-copy hidden" onclick="copiarText('resultado')">COPIAR PARA WHATSAPP</button>
-    </div>
-
-    <div id="tab-historial" class="hidden">
-        <div id="resumen-semanal-datos" class="resumen-global"></div>
-        <div class="card">
-            <h2>Acumulado por Garzón</h2>
-            <div id="acumulado-garzones"></div>
-            <button class="btn-export" onclick="exportarHistorial()">COPIAR REPORTE PARA JEFES</button>
-        </div>
-        <div class="card" style="font-size: 0.8rem;">
-            <h2>Historial de Turnos (Modificable)</h2>
-            <div id="historial-lista"></div>
-            <button onclick="borrarTodo()" style="background:#fee2e2; color:#ef4444; margin-top:20px; border-radius:5px; padding:5px; width: auto; font-size: 0.7rem;">Reiniciar Toda la Semana</button>
+        <div class="col-asistencia">
+            <h3>Part-Time (0.5)</h3>
+            <div id="lista-part"></div>
         </div>
     </div>
 
-    <textarea id="copy-area" style="position: absolute; left: -9999px;"></textarea>
+    <button class="btn-calc" onclick="calcular()">CALCULAR Y GUARDAR</button>
+    <div id="resultado"></div>
+    <button id="btn-copy" class="btn-whatsapp hidden" onclick="copiarReporte()">COPIAR REPORTE DIARIO</button>
+</div>
 
-    <script>
-        const FULL_TIME = ["Anahis", "Angelica", "Jessi", "Juan", "Leonardo", "Liz", "Luis", "Maryu", "Neervison", "Rosmary", "Valentina"];
-        const PART_TIME = ["Annel", "Costanza", "Elizabeth", "Estephani", "Francisca", "Genesis", "Monica"];
+<div class="card">
+    <div id="resumen-semanal-datos"></div>
+    <hr>
+    <div id="acumulado-garzones"></div>
+    <button class="btn-whatsapp" style="margin-top:15px" onclick="exportarSemanal()">COPIAR REPORTE SEMANAL</button>
+</div>
 
-        function renderPersonal() {
-            const fCont = document.getElementById('lista-full');
-            const pCont = document.getElementById('lista-part');
-            FULL_TIME.forEach(n => fCont.innerHTML += `<div class="checkbox-item"><input type="checkbox" class="chk-full" data-name="${n}" checked> ${n}</div>`);
-            PART_TIME.forEach(n => pCont.innerHTML += `<div class="checkbox-item"><input type="checkbox" class="chk-part" data-name="${n}"> ${n}</div>`);
-        }
+<div class="card">
+    <h3>🕒 Historial Reciente</h3>
+    <div id="historial-listado"></div>
+    <button class="btn-del" style="width:100%; margin-top:10px" onclick="limpiarTodo()">BORRAR TODO EL HISTORIAL</button>
+</div>
 
-        function calcular() {
-    const ef = Math.floor(Number(document.getElementById('efectivo').value) || 0);
-    const tb = Math.floor(Number(document.getElementById('transbank').value) || 0);
-    const turno = document.getElementById('turno').value;
-    const total = ef + tb;
-    const cocina = Math.floor(total * 0.20);
-    const repartir = total - cocina;
+<textarea id="copy-area" class="hidden"></textarea>
 
-    const asistF = Array.from(document.querySelectorAll('.chk-full:checked')).map(c => c.dataset.name);
-    const asistP = Array.from(document.querySelectorAll('.chk-part:checked')).map(c => c.dataset.name);
-    const pts = (asistF.length * 1) + (asistP.length * 0.5);
-
-    if (pts === 0) return alert("Selecciona personal");
-
-    const vPunto = Math.floor(repartir / pts);
-    const fecha = new Date().toLocaleDateString('es-CL');
-
-    // 1. REPORTE DIARIO MEJORADO
-    let res = `📅 *REPORTE PROPINISH ${fecha} (${turno})*\n` +
-              `--------------------------\n` +
-              `💵 Efectivo: $${ef.toLocaleString()}\n` +
-              `💳 Transbank: $${tb.toLocaleString()}\n` +
-              `👨‍🍳 Cocina (20%): $${cocina.toLocaleString()}\n` +
-              `💰 Total Turno: $${total.toLocaleString()}\n` +
-              `--------------------------\n` +
-              `🥇 Pago Full: $${vPunto.toLocaleString()}\n` +
-              `🥈 Pago Part: $${Math.floor(vPunto*0.5).toLocaleString()}\n\n` +
-              `*Fulls:* ${asistF.join(', ')}\n*Parts:* ${asistP.join(', ')}`;
-
-    document.getElementById('resultado').innerText = res;
-    document.getElementById('resultado').style.display = 'block';
-    document.getElementById('btn-copy').classList.remove('hidden');
-
-    const datosTurno = {id: Date.now(), fecha, turno, vPunto, asistF, asistP, ef, tb, cocina, total};
+<script>
+    const URL_SHEETS = "https://script.google.com/macros/s/AKfycbygwmq8DhnugIjeROCO7YTzE5Qn7dFucNXmuamb4IvD0BFIvrShJpZ_x9nBGVx8clw7/exec";
     
-    // Guardar en LocalStorage (para el teléfono)
-    let db = JSON.parse(localStorage.getItem('propinish_db') || '[]');
-    db.push(datosTurno);
-    localStorage.setItem('propinish_db', JSON.stringify(db));
-    
-    // 3. ENVIAR A GOOGLE SHEETS
-    enviarAlCloud(datosTurno);
-    
-    actualizarVistas();
-}
+    // Lista de Personal actualizada
+    const FULL_TIME = ["Leonardo", "Angelica", "Maryu", "Anahis", "Jessica", "Liz", "Luis", "Juan", "Valentina", "Neervison", "Rosmary"];
+    const PART_TIME = ["Constanza", "Estphanie", "Genesis", "Annel", "Elizabeth", "Francisca", "Monica"];
 
-async function enviarAlCloud(datos) {
-    if(!URL_SHEETS.includes("script.google")) return;
-    try {
-        await fetch(URL_SHEETS, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: JSON.stringify(datos)
+    function init() {
+        const fDiv = document.getElementById('lista-full');
+        const pDiv = document.getElementById('lista-part');
+        
+        FULL_TIME.forEach(n => {
+            fDiv.innerHTML += `<div class="check-item"><input type="checkbox" class="chk-full" data-name="${n}">${n}</div>`;
         });
-        console.log("Datos respaldados en Sheets");
-    } catch (e) { console.error("Error en backup", e); }
-}
-
-function actualizarVistas() {
-    const db = JSON.parse(localStorage.getItem('propinish_db') || '[]');
-    const listaA = document.getElementById('acumulado-garzones');
-    const resSemanal = document.getElementById('resumen-semanal-datos');
-    
-    let totalesGarzones = {};
-    let sumaEf = 0, sumaTb = 0, sumaCocina = 0;
-
-    db.forEach(t => {
-        sumaEf += (Number(t.ef) || 0);
-        sumaTb += (Number(t.tb) || 0);
-        sumaCocina += (Number(t.cocina) || 0);
-        if(t.asistF) t.asistF.forEach(n => totalesGarzones[n] = (totalesGarzones[n] || 0) + (Number(t.vPunto) || 0));
-        if(t.asistP) t.asistP.forEach(n => totalesGarzones[n] = (totalesGarzones[n] || 0) + Math.floor((Number(t.vPunto) || 0) * 0.5));
-    });
-
-    // 1. RESUMEN EN PANTALLA CON COCINA
-    resSemanal.innerHTML = `<strong>RESUMEN SEMANAL</strong><br>` +
-                           `💵 Ef: $${sumaEf.toLocaleString()} | 💳 TB: $${sumaTb.toLocaleString()}<br>` +
-                           `👨‍🍳 Cocina Total: $${sumaCocina.toLocaleString()}<br>` + 
-                           `<span style="color:var(--primary); font-weight:bold;">🏦 Entrega Jefa: $${(sumaTb-sumaCocina).toLocaleString()}</span>`;
-
-    listaA.innerHTML = Object.keys(totalesGarzones).sort().map(n => `<div class="stats-item"><span>${n}</span><span class="monto">$${totalesGarzones[n].toLocaleString()}</span></div>`).join('') || "Sin datos.";
-    
-    // ... (Mantén el resto de la función igual)
-}
-
-function exportarHistorial() {
-    const db = JSON.parse(localStorage.getItem('propinish_db') || '[]');
-    if(db.length === 0) return alert("No hay datos");
-    
-    let sumaEf = 0, sumaTb = 0, sumaCocina = 0, g = {};
-    db.forEach(t => {
-        sumaEf += (Number(t.ef)||0); sumaTb += (Number(t.tb)||0); sumaCocina += (Number(t.cocina)||0);
-        if(t.asistF) t.asistF.forEach(n => g[n] = (g[n] || 0) + (Number(t.vPunto) || 0));
-        if(t.asistP) t.asistP.forEach(n => g[n] = (g[n] || 0) + Math.floor((Number(t.vPunto) || 0) * 0.5));
-    });
-
-    // 2. REPORTE PARA JEFES MEJORADO
-    let rep = `📊 *REPORTE SEMANAL PROPINISH .*\n--------------------------\n` +
-              `💵 Total Efectivo: $${sumaEf.toLocaleString()}\n` +
-              `💳 Total Transbank: $${sumaTb.toLocaleString()}\n` +
-              `👨‍🍳 Total Cocina: $${sumaCocina.toLocaleString()}\n` +
-              `--------------------------\n` +
-              `💰 *MONTO A ENTREGAR: $${(sumaTb-sumaCocina).toLocaleString()}*\n` +
-              `--------------------------\n*ACUMULADO GARZONES:*\n`;
-    
-    Object.keys(g).sort().forEach(n => rep += `${n}: $${g[n].toLocaleString()}\n`);
-    
-    const area = document.getElementById('copy-area');
-    area.value = rep; area.select(); document.execCommand('copy');
-    alert("¡Reporte Semanal copiado!");
-}
-        function copiarText(id) {
-            const area = document.getElementById('copy-area');
-            area.value = document.getElementById(id).innerText;
-            area.select(); document.execCommand('copy');
-            alert("¡Copiado!");
-        }
-
-        function showTab(tab) {
-            document.getElementById('tab-calc').classList.toggle('hidden', tab !== 'calc');
-            document.getElementById('tab-historial').classList.toggle('hidden', tab !== 'historial');
-            document.getElementById('btn-tab-calc').classList.toggle('active', tab === 'calc');
-            document.getElementById('btn-tab-hist').classList.toggle('active', tab === 'historial');
-        }
-
-        function borrarTodo() { if(confirm("¿Borrar toda la semana?")) { localStorage.removeItem('propinish_db'); location.reload(); } }
-
-        renderPersonal();
+        PART_TIME.forEach(n => {
+            pDiv.innerHTML += `<div class="check-item"><input type="checkbox" class="chk-part" data-name="${n}">${n}</div>`;
+        });
         actualizarVistas();
-    </script>
+    }
+
+    async function calcular() {
+        const ef = Math.floor(Number(document.getElementById('efectivo').value) || 0);
+        const tb = Math.floor(Number(document.getElementById('transbank').value) || 0);
+        const turno = document.getElementById('turno').value;
+        const fManual = document.getElementById('fecha-manual').value;
+        
+        const total = ef + tb;
+        if(total === 0) return alert("Ingresa montos para calcular.");
+
+        const cocina = Math.floor(total * 0.20);
+        const repartir = total - cocina;
+
+        const asistF = Array.from(document.querySelectorAll('.chk-full:checked')).map(c => c.dataset.name);
+        const asistP = Array.from(document.querySelectorAll('.chk-part:checked')).map(c => c.dataset.name);
+        const pts = (asistF.length * 1) + (asistP.length * 0.5);
+
+        if (pts === 0) return alert("Selecciona al menos un garzón.");
+
+        const vPunto = Math.floor(repartir / pts);
+        const fecha = fManual ? fManual.split('-').reverse().join('/') : new Date().toLocaleDateString('es-CL');
+
+        const datos = { id: Date.now(), fecha, turno, ef, tb, cocina, total, vPunto, asistF, asistP };
+        
+        let db = JSON.parse(localStorage.getItem('propinish_db') || '[]');
+        db.push(datos);
+        localStorage.setItem('propinish_db', JSON.stringify(db));
+
+        let res = `📅 *REPORTE PROPINISH ${fecha}*\n` +
+                  `Turno: ${turno}\n` +
+                  `--------------------------\n` +
+                  `💵 Efectivo: $${ef.toLocaleString()}\n` +
+                  `💳 Transbank: $${tb.toLocaleString()}\n` +
+                  `👨‍🍳 Cocina (20%): $${cocina.toLocaleString()}\n` +
+                  `💰 Total: $${total.toLocaleString()}\n` +
+                  `--------------------------\n` +
+                  `🥇 Pago Full: $${vPunto.toLocaleString()}\n` +
+                  `🥈 Pago Part: $${Math.floor(vPunto*0.5).toLocaleString()}\n\n` +
+                  `*Asistencia:* ${[...asistF, ...asistP].join(', ')}`;
+
+        document.getElementById('resultado').innerText = res;
+        document.getElementById('resultado').style.display = 'block';
+        document.getElementById('btn-copy').classList.remove('hidden');
+
+        actualizarVistas();
+        enviarAlCloud(datos);
+        
+        document.getElementById('efectivo').value = "";
+        document.getElementById('transbank').value = "";
+        alert("¡Turno guardado y sincronizado!");
+    }
+
+    async function enviarAlCloud(datos) {
+        try {
+            await fetch(URL_SHEETS, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify(datos)
+            });
+        } catch (e) { console.log("Error de respaldo en la nube"); }
+    }
+
+    function actualizarVistas() {
+        const db = JSON.parse(localStorage.getItem('propinish_db') || '[]');
+        const listaA = document.getElementById('acumulado-garzones');
+        const resSemanal = document.getElementById('resumen-semanal-datos');
+        const histDiv = document.getElementById('historial-listado');
+        
+        let g = {}, sEf = 0, sTb = 0, sCo = 0;
+        histDiv.innerHTML = "";
+
+        // Mostramos el historial (el más reciente primero)
+        [...db].reverse().forEach(t => {
+            sEf += t.ef; sTb += t.tb; sCo += t.cocina;
+            
+            histDiv.innerHTML += `
+                <div class="historial-item">
+                    <div>
+                        <small>${t.fecha} (${t.turno})</small><br>
+                        <b>$${t.total.toLocaleString()}</b>
+                    </div>
+                    <div>
+                        <button class="btn-edit" onclick="editarTurno(${t.id})">✏️</button>
+                        <button class="btn-del" onclick="eliminarTurno(${t.id})">🗑️</button>
+                    </div>
+                </div>`;
+
+            if(t.asistF) t.asistF.forEach(n => g[n] = (g[n] || 0) + t.vPunto);
+            if(t.asistP) t.asistP.forEach(n => g[n] = (g[n] || 0) + Math.floor(t.vPunto * 0.5));
+        });
+
+        resSemanal.innerHTML = `
+            <b>RESUMEN SEMANAL</b><br>
+            Ef: $${sEf.toLocaleString()} | TB: $${sTb.toLocaleString()}<br>
+            Cocina: $${sCo.toLocaleString()}<br>
+            <span style="color:var(--primary); font-weight:bold;">🏦 Entrega Jefa: $${(sTb - sCo).toLocaleString()}</span>`;
+
+        listaA.innerHTML = Object.keys(g).sort().map(n => `
+            <div class="historial-item"><span>${n}</span><span class="monto">$${g[n].toLocaleString()}</span></div>
+        `).join('') || "No hay datos acumulados.";
+    }
+
+    function editarTurno(id) {
+        let db = JSON.parse(localStorage.getItem('propinish_db') || '[]');
+        const t = db.find(x => x.id === id);
+        if(t) {
+            document.getElementById('efectivo').value = t.ef;
+            document.getElementById('transbank').value = t.tb;
+            document.getElementById('turno').value = t.turno;
+            // Desmarcamos todos y marcamos los que estaban
+            document.querySelectorAll('input[type=checkbox]').forEach(c => c.checked = false);
+            t.asistF.forEach(n => {
+                const el = document.querySelector(`.chk-full[data-name="${n}"]`);
+                if(el) el.checked = true;
+            });
+            t.asistP.forEach(n => {
+                const el = document.querySelector(`.chk-part[data-name="${n}"]`);
+                if(el) el.checked = true;
+            });
+            eliminarTurno(id);
+            window.scrollTo(0,0);
+            alert("Datos cargados. Corrígelos y presiona CALCULAR para actualizar.");
+        }
+    }
+
+    function eliminarTurno(id) {
+        let db = JSON.parse(localStorage.getItem('propinish_db') || '[]');
+        db = db.filter(x => x.id !== id);
+        localStorage.setItem('propinish_db', JSON.stringify(db));
+        actualizarVistas();
+    }
+
+    function copiarReporte() {
+        const text = document.getElementById('resultado').innerText;
+        const area = document.getElementById('copy-area');
+        area.value = text; area.select(); document.execCommand('copy');
+        alert("Reporte diario copiado al portapapeles.");
+    }
+
+    function exportarSemanal() {
+        const db = JSON.parse(localStorage.getItem('propinish_db') || '[]');
+        let sEf = 0, sTb = 0, sCo = 0, g = {};
+        db.forEach(t => {
+            sEf += t.ef; sTb += t.tb; sCo += t.cocina;
+            if(t.asistF) t.asistF.forEach(n => g[n] = (g[n] || 0) + t.vPunto);
+            if(t.asistP) t.asistP.forEach(n => g[n] = (g[n] || 0) + Math.floor(t.vPunto * 0.5));
+        });
+
+        let rep = `📊 *REPORTE SEMANAL PROPINISH*\n--------------------------\n` +
+                  `💵 Total Ef: $${sEf.toLocaleString()}\n` +
+                  `💳 Total TB: $${sTb.toLocaleString()}\n` +
+                  `👨‍🍳 Total Cocina: $${sCo.toLocaleString()}\n` +
+                  `💰 *MONTO A ENTREGAR: $${(sTb-sCo).toLocaleString()}*\n` +
+                  `--------------------------\n*ACUMULADO GARZONES:*\n`;
+        
+        Object.keys(g).sort().forEach(n => rep += `${n}: $${g[n].toLocaleString()}\n`);
+        
+        const area = document.getElementById('copy-area');
+        area.value = rep; area.select(); document.execCommand('copy');
+        alert("Reporte semanal copiado para WhatsApp.");
+    }
+
+    function limpiarTodo() {
+        if(confirm("¿Estás seguro de borrar TODO el historial acumulado?")) {
+            localStorage.removeItem('propinish_db');
+            actualizarVistas();
+        }
+    }
+
+    init();
+</script>
 </body>
 </html>
-
-
-
-
-
