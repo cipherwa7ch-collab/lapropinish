@@ -5,96 +5,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Propinish .</title>
-    <link rel="apple-touch-icon" href="logo.png">
-    <link rel="icon" type="image/png" href="logo.png">
-    <meta name="mobile-web-app-capable" content="yes">
     <style>
-        :root {
-            --primary: #2563eb;
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --text: #1e293b;
-        }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
-        
-        .header-container { text-align: center; padding: 10px 0 20px 0; }
-        .app-logo { width: 85px; height: 85px; border-radius: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 10px; object-fit: cover; border: 2px solid white; }
-        h1 { margin: 0; font-size: 1.8rem; color: var(--primary); }
-        .subtitle { margin: 5px 0 0; font-size: 0.9rem; opacity: 0.7; }
-
-        .card { background: var(--card); padding: 20px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem; }
-        input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #e2e8f0; border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
-        
-        .grid-asistencia { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        .col-asistencia h3 { font-size: 0.9rem; border-bottom: 2px solid var(--primary); padding-bottom: 5px; }
-        .check-item { display: flex; align-items: center; margin-bottom: 8px; font-size: 0.9rem; }
-        .check-item input { width: auto; margin-right: 10px; margin-bottom: 0; }
-
-        button { width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 1rem; }
-        .btn-calc { background: var(--primary); color: white; margin-bottom: 10px; }
-        .btn-whatsapp { background: #25d366; color: white; margin-top: 10px; }
-        .btn-edit { background: #f59e0b; color: white; padding: 5px 10px; width: auto; font-size: 0.8rem; border-radius: 5px; }
-        .btn-del { background: #ef4444; color: white; padding: 5px 10px; width: auto; font-size: 0.8rem; border-radius: 5px; }
-
-        #resultado { background: #f1f5f9; padding: 15px; border-radius: 10px; white-space: pre-wrap; font-family: monospace; font-size: 0.9rem; display: none; margin-top: 15px; border-left: 4px solid var(--primary); }
-        
-        .historial-item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; }
-        .monto { font-weight: bold; color: var(--primary); }
+        :root { --primary: #2563eb; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; }
+        .header { text-align: center; padding: 10px; }
+        .app-logo { width: 70px; height: 70px; border-radius: 15px; margin-bottom: 5px; }
+        .card { background: var(--card); padding: 18px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 15px; }
+        h3 { margin-top: 0; color: var(--primary); font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 8px; }
+        label { display: block; margin: 10px 0 5px; font-weight: bold; font-size: 0.85rem; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; box-sizing: border-box; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .check-item { display: flex; align-items: center; margin-bottom: 5px; font-size: 0.85rem; }
+        .check-item input { width: auto; margin-right: 8px; }
+        button { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .btn-main { background: var(--primary); color: white; }
+        .btn-wa { background: #25d366; color: white; }
+        .btn-edit { background: #f59e0b; color: white; width: auto; padding: 4px 8px; font-size: 0.7rem; }
+        .btn-del { background: #ef4444; color: white; width: auto; padding: 4px 8px; font-size: 0.7rem; }
+        #resultado { background: #f1f5f9; padding: 12px; border-radius: 8px; white-space: pre-wrap; display: none; margin-top: 10px; font-size: 0.85rem; }
+        .hist-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; }
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
-<div class="header-container">
-    <img src="logo.png" alt="Logo" class="app-logo">
-    <h1>Propinish .</h1>
-    <p class="subtitle">Gestión Profesional de Propinas</p>
+<div class="header">
+    <img src="logo.png" class="app-logo">
+    <h1 style="margin:0; font-size:1.5rem;">Propinish .</h1>
 </div>
 
 <div class="card">
-    <label>📅 Fecha del Turno (Opcional):</label>
+    <h3>📥 Ingreso de Turno</h3>
+    <label>Fecha:</label>
     <input type="date" id="fecha-manual">
-
-    <label>🕒 Turno:</label>
-    <select id="turno">
-        <option value="Día">Día</option>
-        <option value="Noche">Noche</option>
-    </select>
-
-    <label>💵 Efectivo:</label>
-    <input type="number" id="efectivo" placeholder="Ej: 50000" inputmode="numeric">
-
-    <label>💳 Transbank (TB):</label>
-    <input type="number" id="transbank" placeholder="Ej: 120000" inputmode="numeric">
-
-    <div class="grid-asistencia">
-        <div class="col-asistencia">
-            <h3>Full-Time (1.0)</h3>
-            <div id="lista-full"></div>
-        </div>
-        <div class="col-asistencia">
-            <h3>Part-Time (0.5)</h3>
-            <div id="lista-part"></div>
-        </div>
+    <label>Turno:</label>
+    <select id="turno"><option>Día</option><option>Noche</option></select>
+    <div class="grid">
+        <div><label>Efectivo:</label><input type="number" id="efectivo" inputmode="numeric"></div>
+        <div><label>Transbank:</label><input type="number" id="transbank" inputmode="numeric"></div>
     </div>
-
-    <button class="btn-calc" onclick="calcular()">CALCULAR Y GUARDAR</button>
+    <div class="grid">
+        <div><p style="font-size:0.8rem; font-weight:bold;">Full-Time</p><div id="lista-full"></div></div>
+        <div><p style="font-size:0.8rem; font-weight:bold;">Part-Time</p><div id="lista-part"></div></div>
+    </div>
+    <button class="btn-main" onclick="calcular()">CALCULAR Y GUARDAR</button>
     <div id="resultado"></div>
-    <button id="btn-copy" class="btn-whatsapp hidden" onclick="copiarReporte()">COPIAR REPORTE DIARIO</button>
+    <button id="btn-copy-diario" class="btn-wa hidden" onclick="copiarTexto('resultado')">COPIAR REPORTE DIARIO</button>
+</div>
+
+<div class="card" id="seccion-semanal">
+    <h3>📊 Reporte para Jefes</h3>
+    <div id="resumen-semanal-datos" style="font-size: 0.9rem; line-height: 1.4;"></div>
+    <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
+    <div id="acumulado-garzones" style="font-size: 0.9rem;"></div>
+    <button class="btn-wa" onclick="exportarSemanal()">COPIAR REPORTE SEMANAL</button>
 </div>
 
 <div class="card">
-    <div id="resumen-semanal-datos"></div>
-    <hr>
-    <div id="acumulado-garzones"></div>
-    <button class="btn-whatsapp" style="margin-top:15px" onclick="exportarSemanal()">COPIAR REPORTE SEMANAL</button>
-</div>
-
-<div class="card">
-    <h3>🕒 Historial Reciente</h3>
+    <h3>🕒 Historial</h3>
     <div id="historial-listado"></div>
-    <button class="btn-del" style="width:100%; margin-top:10px" onclick="limpiarTodo()">BORRAR TODO EL HISTORIAL</button>
+    <button style="background:#eee; color:#666; font-size:0.7rem;" onclick="limpiarTodo()">LIMPIAR TODO</button>
 </div>
 
 <textarea id="copy-area" class="hidden"></textarea>
@@ -102,20 +72,12 @@
 <script>
     const URL_SHEETS = "https://script.google.com/macros/s/AKfycbygwmq8DhnugIjeROCO7YTzE5Qn7dFucNXmuamb4IvD0BFIvrShJpZ_x9nBGVx8clw7/exec";
     
-    // Lista de Personal actualizada
     const FULL_TIME = ["Leonardo", "Angelica", "Maryu", "Anahis", "Jessica", "Liz", "Luis", "Juan", "Valentina", "Neervison", "Rosmary"];
     const PART_TIME = ["Constanza", "Estphanie", "Genesis", "Annel", "Elizabeth", "Francisca", "Monica"];
 
     function init() {
-        const fDiv = document.getElementById('lista-full');
-        const pDiv = document.getElementById('lista-part');
-        
-        FULL_TIME.forEach(n => {
-            fDiv.innerHTML += `<div class="check-item"><input type="checkbox" class="chk-full" data-name="${n}">${n}</div>`;
-        });
-        PART_TIME.forEach(n => {
-            pDiv.innerHTML += `<div class="check-item"><input type="checkbox" class="chk-part" data-name="${n}">${n}</div>`;
-        });
+        document.getElementById('lista-full').innerHTML = FULL_TIME.map(n => `<div class="check-item"><input type="checkbox" class="chk-full" data-name="${n}">${n}</div>`).join('');
+        document.getElementById('lista-part').innerHTML = PART_TIME.map(n => `<div class="check-item"><input type="checkbox" class="chk-part" data-name="${n}">${n}</div>`).join('');
         actualizarVistas();
     }
 
@@ -125,99 +87,55 @@
         const turno = document.getElementById('turno').value;
         const fManual = document.getElementById('fecha-manual').value;
         
-        const total = ef + tb;
-        if(total === 0) return alert("Ingresa montos para calcular.");
-
-        const cocina = Math.floor(total * 0.20);
-        const repartir = total - cocina;
-
+        if((ef + tb) === 0) return alert("Ingresa montos.");
         const asistF = Array.from(document.querySelectorAll('.chk-full:checked')).map(c => c.dataset.name);
         const asistP = Array.from(document.querySelectorAll('.chk-part:checked')).map(c => c.dataset.name);
         const pts = (asistF.length * 1) + (asistP.length * 0.5);
+        if (pts === 0) return alert("Selecciona personal.");
 
-        if (pts === 0) return alert("Selecciona al menos un garzón.");
-
-        const vPunto = Math.floor(repartir / pts);
+        const total = ef + tb;
+        const cocina = Math.floor(total * 0.20);
+        const vPunto = Math.floor((total - cocina) / pts);
         const fecha = fManual ? fManual.split('-').reverse().join('/') : new Date().toLocaleDateString('es-CL');
 
         const datos = { id: Date.now(), fecha, turno, ef, tb, cocina, total, vPunto, asistF, asistP };
-        
         let db = JSON.parse(localStorage.getItem('propinish_db') || '[]');
         db.push(datos);
         localStorage.setItem('propinish_db', JSON.stringify(db));
 
-        let res = `📅 *REPORTE PROPINISH ${fecha}*\n` +
-                  `Turno: ${turno}\n` +
-                  `--------------------------\n` +
-                  `💵 Efectivo: $${ef.toLocaleString()}\n` +
-                  `💳 Transbank: $${tb.toLocaleString()}\n` +
-                  `👨‍🍳 Cocina (20%): $${cocina.toLocaleString()}\n` +
-                  `💰 Total: $${total.toLocaleString()}\n` +
-                  `--------------------------\n` +
-                  `🥇 Pago Full: $${vPunto.toLocaleString()}\n` +
-                  `🥈 Pago Part: $${Math.floor(vPunto*0.5).toLocaleString()}\n\n` +
-                  `*Asistencia:* ${[...asistF, ...asistP].join(', ')}`;
-
-        document.getElementById('resultado').innerText = res;
+        document.getElementById('resultado').innerText = `📅 REPORTE ${fecha} (${turno})\nEf: $${ef.toLocaleString()} | TB: $${tb.toLocaleString()}\nCocina (20%): $${cocina.toLocaleString()}\nTotal: $${total.toLocaleString()}\n----------------\nPago Full: $${vPunto.toLocaleString()}\nPago Part: $${Math.floor(vPunto*0.5).toLocaleString()}`;
         document.getElementById('resultado').style.display = 'block';
-        document.getElementById('btn-copy').classList.remove('hidden');
+        document.getElementById('btn-copy-diario').classList.remove('hidden');
 
         actualizarVistas();
         enviarAlCloud(datos);
-        
-        document.getElementById('efectivo').value = "";
-        document.getElementById('transbank').value = "";
-        alert("¡Turno guardado y sincronizado!");
+        alert("¡Guardado!");
     }
 
     async function enviarAlCloud(datos) {
         try {
-            await fetch(URL_SHEETS, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify(datos)
-            });
-        } catch (e) { console.log("Error de respaldo en la nube"); }
+            await fetch(URL_SHEETS, { method: 'POST', mode: 'no-cors', body: JSON.stringify(datos) });
+        } catch (e) { console.log("Error sync"); }
     }
 
     function actualizarVistas() {
         const db = JSON.parse(localStorage.getItem('propinish_db') || '[]');
-        const listaA = document.getElementById('acumulado-garzones');
-        const resSemanal = document.getElementById('resumen-semanal-datos');
         const histDiv = document.getElementById('historial-listado');
+        const resSemanal = document.getElementById('resumen-semanal-datos');
+        const listaA = document.getElementById('acumulado-garzones');
         
-        let g = {}, sEf = 0, sTb = 0, sCo = 0;
         histDiv.innerHTML = "";
+        let g = {}, sEf = 0, sTb = 0, sCo = 0;
 
-        // Mostramos el historial (el más reciente primero)
         [...db].reverse().forEach(t => {
             sEf += t.ef; sTb += t.tb; sCo += t.cocina;
-            
-            histDiv.innerHTML += `
-                <div class="historial-item">
-                    <div>
-                        <small>${t.fecha} (${t.turno})</small><br>
-                        <b>$${t.total.toLocaleString()}</b>
-                    </div>
-                    <div>
-                        <button class="btn-edit" onclick="editarTurno(${t.id})">✏️</button>
-                        <button class="btn-del" onclick="eliminarTurno(${t.id})">🗑️</button>
-                    </div>
-                </div>`;
-
+            histDiv.innerHTML += `<div class="hist-item"><span>${t.fecha} - $${t.total.toLocaleString()}</span><div><button class="btn-edit" onclick="editarTurno(${t.id})">✏️</button> <button class="btn-del" onclick="eliminarTurno(${t.id})">🗑️</button></div></div>`;
             if(t.asistF) t.asistF.forEach(n => g[n] = (g[n] || 0) + t.vPunto);
             if(t.asistP) t.asistP.forEach(n => g[n] = (g[n] || 0) + Math.floor(t.vPunto * 0.5));
         });
 
-        resSemanal.innerHTML = `
-            <b>RESUMEN SEMANAL</b><br>
-            Ef: $${sEf.toLocaleString()} | TB: $${sTb.toLocaleString()}<br>
-            Cocina: $${sCo.toLocaleString()}<br>
-            <span style="color:var(--primary); font-weight:bold;">🏦 Entrega Jefa: $${(sTb - sCo).toLocaleString()}</span>`;
-
-        listaA.innerHTML = Object.keys(g).sort().map(n => `
-            <div class="historial-item"><span>${n}</span><span class="monto">$${g[n].toLocaleString()}</span></div>
-        `).join('') || "No hay datos acumulados.";
+        resSemanal.innerHTML = `💵 Ef Total: $${sEf.toLocaleString()}<br>💳 TB Total: $${sTb.toLocaleString()}<br>👨‍🍳 Cocina Total: $${sCo.toLocaleString()}<br><b style="color:var(--primary)">🏦 ENTREGA JEFA: $${(sTb-sCo).toLocaleString()}</b>`;
+        listaA.innerHTML = Object.keys(g).sort().map(n => `<div class="hist-item"><span>${n}</span><b>$${g[n].toLocaleString()}</b></div>`).join('');
     }
 
     function editarTurno(id) {
@@ -227,34 +145,15 @@
             document.getElementById('efectivo').value = t.ef;
             document.getElementById('transbank').value = t.tb;
             document.getElementById('turno').value = t.turno;
-            // Desmarcamos todos y marcamos los que estaban
-            document.querySelectorAll('input[type=checkbox]').forEach(c => c.checked = false);
-            t.asistF.forEach(n => {
-                const el = document.querySelector(`.chk-full[data-name="${n}"]`);
-                if(el) el.checked = true;
-            });
-            t.asistP.forEach(n => {
-                const el = document.querySelector(`.chk-part[data-name="${n}"]`);
-                if(el) el.checked = true;
-            });
             eliminarTurno(id);
             window.scrollTo(0,0);
-            alert("Datos cargados. Corrígelos y presiona CALCULAR para actualizar.");
         }
     }
 
     function eliminarTurno(id) {
         let db = JSON.parse(localStorage.getItem('propinish_db') || '[]');
-        db = db.filter(x => x.id !== id);
-        localStorage.setItem('propinish_db', JSON.stringify(db));
+        localStorage.setItem('propinish_db', JSON.stringify(db.filter(x => x.id !== id)));
         actualizarVistas();
-    }
-
-    function copiarReporte() {
-        const text = document.getElementById('resultado').innerText;
-        const area = document.getElementById('copy-area');
-        area.value = text; area.select(); document.execCommand('copy');
-        alert("Reporte diario copiado al portapapeles.");
     }
 
     function exportarSemanal() {
@@ -265,28 +164,20 @@
             if(t.asistF) t.asistF.forEach(n => g[n] = (g[n] || 0) + t.vPunto);
             if(t.asistP) t.asistP.forEach(n => g[n] = (g[n] || 0) + Math.floor(t.vPunto * 0.5));
         });
-
-        let rep = `📊 *REPORTE SEMANAL PROPINISH*\n--------------------------\n` +
-                  `💵 Total Ef: $${sEf.toLocaleString()}\n` +
-                  `💳 Total TB: $${sTb.toLocaleString()}\n` +
-                  `👨‍🍳 Total Cocina: $${sCo.toLocaleString()}\n` +
-                  `💰 *MONTO A ENTREGAR: $${(sTb-sCo).toLocaleString()}*\n` +
-                  `--------------------------\n*ACUMULADO GARZONES:*\n`;
-        
+        let rep = `📊 *REPORTE SEMANAL*\n------------------\n💵 Ef: $${sEf.toLocaleString()}\n💳 TB: $${sTb.toLocaleString()}\n👨‍🍳 Cocina: $${sCo.toLocaleString()}\n💰 *ENTREGA JEFA: $${(sTb-sCo).toLocaleString()}*\n------------------\n`;
         Object.keys(g).sort().forEach(n => rep += `${n}: $${g[n].toLocaleString()}\n`);
-        
+        const area = document.getElementById('copy-area'); area.value = rep; area.select(); document.execCommand('copy');
+        alert("Copiado semanal");
+    }
+
+    function copiarTexto(id) {
         const area = document.getElementById('copy-area');
-        area.value = rep; area.select(); document.execCommand('copy');
-        alert("Reporte semanal copiado para WhatsApp.");
+        area.value = document.getElementById(id).innerText;
+        area.select(); document.execCommand('copy');
+        alert("Copiado");
     }
 
-    function limpiarTodo() {
-        if(confirm("¿Estás seguro de borrar TODO el historial acumulado?")) {
-            localStorage.removeItem('propinish_db');
-            actualizarVistas();
-        }
-    }
-
+    function limpiarTodo() { if(confirm("¿Borrar todo?")) { localStorage.removeItem('propinish_db'); actualizarVistas(); } }
     init();
 </script>
 </body>
