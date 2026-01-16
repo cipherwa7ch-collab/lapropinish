@@ -34,43 +34,85 @@
     <h1 style="margin:0; font-size:1.5rem;">Propinish .</h1>
 </div>
 
-<div class="card">
-    <h3>📥 Ingreso de Turno</h3>
-    <label>Fecha:</label>
-    <input type="date" id="fecha-manual">
-    <label>Turno:</label>
-    <select id="turno"><option>Día</option><option>Noche</option></select>
-    <div class="grid">
-        <div><label>Efectivo:</label><input type="number" id="efectivo" inputmode="numeric"></div>
-        <div><label>Transbank:</label><input type="number" id="transbank" inputmode="numeric"></div>
+<div style="display:flex; gap:10px; margin-bottom:20px;">
+    <button onclick="verTab('calc')" id="btnTabCalc" style="background:var(--primary); color:white;">🧮 Cálculo</button>
+    <button onclick="verTab('repo')" id="btnTabRepo" style="background:#64748b; color:white;">📊 Reportes</button>
+</div>
+
+<div id="tab-calc">
+    <div class="card">
+        <h3>📥 Ingreso de Turno</h3>
+        <label>Fecha:</label>
+        <input type="date" id="fecha-manual">
+        <label>Turno:</label>
+        <select id="turno"><option>Día</option><option>Noche</option></select>
+        <div class="grid">
+            <div><label>Efectivo:</label><input type="number" id="efectivo" inputmode="numeric"></div>
+            <div><label>Transbank:</label><input type="number" id="transbank" inputmode="numeric"></div>
+        </div>
+        <div class="grid">
+            <div><p>Full-Time</p><div id="lista-full"></div></div>
+            <div><p>Part-Time</p><div id="lista-part"></div></div>
+        </div>
+        <button class="btn-main" onclick="calcular()">CALCULAR Y GUARDAR</button>
+        <div id="resultado"></div>
+        <button id="btn-copy-diario" class="btn-wa hidden" onclick="copiarReporteDiario()">COPIAR REPORTE DIARIO</button>
     </div>
-    <div class="grid">
-        <div><p style="font-size:0.8rem; font-weight:bold;">Full-Time</p><div id="lista-full"></div></div>
-        <div><p style="font-size:0.8rem; font-weight:bold;">Part-Time</p><div id="lista-part"></div></div>
+</div>
+
+<div id="tab-repo" class="hidden">
+    <div class="card">
+        <h3>📊 Resumen Semanal</h3>
+        <div id="resumen-semanal-datos"></div>
+        <hr>
+        <div id="acumulado-garzones"></div>
+        <button class="btn-wa" onclick="exportarSemanal()">COPIAR REPORTE SEMANAL</button>
     </div>
-    <button class="btn-main" onclick="calcular()">CALCULAR Y GUARDAR</button>
-    <div id="resultado"></div>
-    <button id="btn-copy-diario" class="btn-wa hidden" onclick="copiarTexto('resultado')">COPIAR REPORTE DIARIO</button>
+
+    <div class="card">
+        <h3>🕒 Historial</h3>
+        <div id="historial-listado"></div>
+    </div>
 </div>
 
-<div class="card" id="seccion-semanal">
-    <h3>📊 Reporte para Jefes</h3>
-    <div id="resumen-semanal-datos" style="font-size: 0.9rem; line-height: 1.4;"></div>
-    <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
-    <div id="acumulado-garzones" style="font-size: 0.9rem;"></div>
-    <button class="btn-wa" onclick="exportarSemanal()">COPIAR REPORTE SEMANAL</button>
-</div>
+<script>
+    // FUNCION PARA CAMBIAR ENTRE PESTAÑAS
+    function verTab(tab) {
+        if(tab === 'calc') {
+            document.getElementById('tab-calc').classList.remove('hidden');
+            document.getElementById('tab-repo').classList.add('hidden');
+            document.getElementById('btnTabCalc').style.background = 'var(--primary)';
+            document.getElementById('btnTabRepo').style.background = '#64748b';
+        } else {
+            document.getElementById('tab-calc').classList.add('hidden');
+            document.getElementById('tab-repo').classList.remove('hidden');
+            document.getElementById('btnTabCalc').style.background = '#64748b';
+            document.getElementById('btnTabRepo').style.background = 'var(--primary)';
+        }
+    }
 
-<div class="card">
-    <h3>🕒 Historial</h3>
-    <div id="historial-listado"></div>
-    <button style="background:#eee; color:#666; font-size:0.7rem;" onclick="limpiarTodo()">LIMPIAR TODO</button>
-</div>
+    // CORRECCIÓN BOTÓN COPIAR
+    async function copiarReporteDiario() {
+        const texto = document.getElementById('resultado').innerText;
+        try {
+            await navigator.clipboard.writeText(texto);
+            alert("✅ Reporte copiado al portapapeles");
+        } catch (err) {
+            // Fallback para teléfonos viejos
+            const area = document.createElement('textarea');
+            area.value = texto; document.body.appendChild(area);
+            area.select(); document.execCommand('copy');
+            document.body.removeChild(area);
+            alert("✅ Reporte copiado");
+        }
+    }
 
+    // ... (El resto de tus funciones calcular, actualizarVistas, etc. se mantienen igual)
+</script>
 <textarea id="copy-area" class="hidden"></textarea>
 
 <script>
-    const URL_SHEETS = "https://script.google.com/macros/s/AKfycbygwmq8DhnugIjeROCO7YTzE5Qn7dFucNXmuamb4IvD0BFIvrShJpZ_x9nBGVx8clw7/exec";
+    const URL_SHEETS = "https://script.google.com/macros/s/AKfycbwS8P9_rFRQhuIId662JgQyBE8W5DK4feVbQGBdSoyDJfhfzskQx0xh2hyvtF0XATMv/exec";
     
     const FULL_TIME = ["Leonardo", "Angelica", "Maryu", "Anahis", "Jessica", "Liz", "Luis", "Juan", "Valentina", "Neervison", "Rosmary"];
     const PART_TIME = ["Constanza", "Estphanie", "Genesis", "Annel", "Elizabeth", "Francisca", "Monica"];
